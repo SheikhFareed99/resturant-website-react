@@ -1,5 +1,6 @@
 import React from "react";
 import Chinease from "../components/chinease";
+import Layout from "../components/Layout";
 const Chinese_r = () => {
   const items = [
     {
@@ -42,6 +43,7 @@ const Chinese_r = () => {
 
 
     return (
+      <Layout>
         <main>
             <div className="items-container">
                 {items.map((item) => (
@@ -49,6 +51,7 @@ const Chinese_r = () => {
                 ))}
             </div>
         </main>
+        </Layout>
     );
 };
 

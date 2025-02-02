@@ -1,7 +1,9 @@
 import React from 'react';
 import { GoSearch } from "react-icons/go";
+import Layout from './Layout';
 function Body1() {
   return (
+    <Layout>
     <div>
       {/* Hero Section */}
       <div className="pic_div">
@@ -56,6 +58,7 @@ function Body1() {
      
 
     </div>
+    </Layout>
   );
 }
 

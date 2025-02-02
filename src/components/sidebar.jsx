@@ -1,7 +1,8 @@
 import React from 'react';
 import { RxCross2 } from "react-icons/rx";
-
-function Sidebar({ setSidebarVisible }) {
+import { Link } from 'react-router-dom';
+function Sidebar({ setSidebarVisible })
+ {
   return (
     <div className="sidebar">
       <div className="sidebar-content">
@@ -16,7 +17,7 @@ function Sidebar({ setSidebarVisible }) {
             </div>
             <hr id="hr-chinese" />
             <div className="sidebar-item">
-              <span className=" hover-underline sidebar-text">Chinese</span>
+              <Link to="/chineese" style={{ textDecoration: "none", color: "black" }}><span className=" hover-underline sidebar-text">Chinese</span></Link>
               <span className="sidebar-symbol">&gt;</span>
             </div>
             <hr id="hr-pasta" />
