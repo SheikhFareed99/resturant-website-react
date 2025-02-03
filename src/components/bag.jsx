@@ -1,8 +1,15 @@
 import React from 'react';
 import './bag.css';
 import { BsTrash } from "react-icons/bs";
-
+import { useDispatch } from "react-redux";
+import { bagActions } from "../stores/bagslice";
 function Bag({ item }) {
+    const dispatch = useDispatch();
+    const handleRemoveToBag = () => {
+      console.log("remove to bag " + item.id);
+      dispatch(bagActions.removeItemFromBag(item));
+    };
+  
     return (
         <div className="bag_summary">
             <div className="img_d">
@@ -12,7 +19,7 @@ function Bag({ item }) {
                <div className="detail_i">
                 <div className='title_trash'>
                   <h3 className="name">{item.item_name}</h3> 
-                  <div className="trash"><BsTrash /></div> 
+                  <div className="trash"><BsTrash onClick={handleRemoveToBag}/></div> 
                   </div>
                 <p className="description">{item.item_description}</p>
                 <p className="price_bag">Rs: {item.current_price}</p>
