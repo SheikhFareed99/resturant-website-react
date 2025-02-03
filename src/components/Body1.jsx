@@ -1,11 +1,11 @@
 import React from 'react';
 import { GoSearch } from "react-icons/go";
 import Layout from './Layout';
+import { Link } from 'react-router-dom';
 function Body1() {
   return (
     <Layout>
     <div>
-      {/* Hero Section */}
       <div className="pic_div">
         <h1 className="line1">Indulge in limitless flavors & savor </h1>
         <h1 className="line2"> every bite with love</h1>
@@ -30,7 +30,9 @@ function Body1() {
        <div className="card1_img card_img">
         <img src="pictures\pancakes-2291908_1920.jpg" alt="food" />
         </div>
-        <button className='btn_1 btn1'>Eat pasta</button>
+        <Link to="/desserts" style={{ textDecoration: "none", color: "black" }}>
+        <button className='btn_1 btn1'>Enjoy dessert</button>
+        </Link>
 
     </div>
   
@@ -40,14 +42,18 @@ function Body1() {
         <img src="pictures\fish-8031138_1920.jpg" alt="food" />
 
         </div>
-        <button className='btn_1 btn2'>Eat salad</button>
+        <Link to="/pasta" style={{ textDecoration: "none", color: "black" }}>
+        <button className='btn_1 btn2'>Eat pasta</button>
+        </Link>
       </div>
 
       <div className="card3 card">
           <div className="card3_img card_img">
         <img src="pictures\dessert-6006446_1920.jpg" alt="food" />
         </div>
+        <Link to="/drinks" style={{ textDecoration: "none", color: "black" }}>
         <button className='btn_1 btn3'>Drink healthy</button>
+        </Link>
       </div>
   </div>
 

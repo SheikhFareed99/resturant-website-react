@@ -16,8 +16,25 @@ const router = createBrowserRouter([
   },
   {
     path: "/chineese",
-    element: <Chinese_r />
-  }
+    element: <Chinese_r dish="1" />
+  },
+  {
+    path: "/drinks",
+    element: <Chinese_r  dish="2"/>
+  },
+  {
+    path: "/desserts",
+    element: <Chinese_r  dish="4"/>
+  },
+  {
+    path: "/local",
+    element: <Chinese_r  dish="5"/>
+  },
+  {
+    path: "/pasta",
+    element: <Chinese_r dish="3" />
+  },
+
 ]);
 
 function App() {

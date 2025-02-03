@@ -12,32 +12,46 @@ function Sidebar({ setSidebarVisible })
           <ul className="sidebar-list">
             <hr id="hr-fast-food" />
             <div className="sidebar-item">
-              <span className=" hover-underline sidebar-text">Fast Food</span>
+            <Link to="/" style={{ textDecoration: "none", color: "black" }}>
+              <span className=" hover-underline sidebar-text">Home</span>
+              </Link>
               <span className="sidebar-symbol">&gt;</span>
             </div>
             <hr id="hr-chinese" />
             <div className="sidebar-item">
-              <Link to="/chineese" style={{ textDecoration: "none", color: "black" }}><span className=" hover-underline sidebar-text">Chinese</span></Link>
+
+              <Link to="/chineese" style={{ textDecoration: "none", color: "black" }}>
+              <span className=" hover-underline sidebar-text">Chinese</span>
+              </Link>
+
               <span className="sidebar-symbol">&gt;</span>
             </div>
             <hr id="hr-pasta" />
             <div className="sidebar-item">
+            <Link to="/pasta" style={{ textDecoration: "none", color: "black" }}>
               <span className="hover-underline sidebar-text">Pasta</span>
+              </Link>
               <span className="sidebar-symbol">&gt;</span>
             </div>
             <hr id="hr-desserts" />
             <div className="sidebar-item">
+            <Link to="/desserts" style={{ textDecoration: "none", color: "black" }}>
               <span className="hover-underline sidebar-text">Desserts</span>
+              </Link>
               <span className="sidebar-symbol">&gt;</span>
             </div>
             <hr id="hr-local" />
             <div className="sidebar-item">
+            <Link to="/local" style={{ textDecoration: "none", color: "black" }}>
               <span className="hover-underline sidebar-text">Local</span>
+              </Link>
               <span className="sidebar-symbol">&gt;</span>
             </div>
             <hr id="hr-drinks" />
             <div className="sidebar-item">
+            <Link to="/drinks" style={{ textDecoration: "none", color: "black" }}>
               <span className="hover-underline sidebar-text">Drinks</span>
+              </Link>
               <span className="sidebar-symbol">&gt;</span>
             </div>
             <hr id="hr-end" />
