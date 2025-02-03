@@ -121,3 +121,47 @@ width: 500px;
  
    top:16px
    }
+
+.quantity_icons2
+{
+    width: 70px;
+    margin-top: 10px;
+    margin-left: 315px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.plus_icons2
+{
+   font-size: 25px; 
+
+}
+.minus_icons2
+{
+   font-size: 25px; 
+
+}
+.order_count2
+{
+    margin-top:3px;
+    font-weight: bold;
+}
+.plus_icons2 :hover
+{
+   font-size: 25px; 
+   color: greenyellow;
+   background-color: greenyellow;
+
+}
+.minus_icons2 :hover
+{
+   font-size: 25px; 
+   color: red;
+   background-color: red;
+
+}
+
+.trash:hover{
+    color: red;
+  
+}

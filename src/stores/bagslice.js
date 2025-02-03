@@ -24,6 +24,11 @@ const bagSlice = createSlice({
         state.items = state.items.filter(item => item.id !== action.payload.id);
       }
     },
+    removeEntireItemFromBag: (state, action) => {
+      
+        state.items = state.items.filter(item => item.id !== action.payload.id);
+      
+    },
   },
 });
 

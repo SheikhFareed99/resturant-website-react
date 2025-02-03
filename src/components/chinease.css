@@ -71,3 +71,17 @@
     margin-top:3px;
     font-weight: bold;
 }
+.plus_icons :hover
+{
+   font-size: 25px; 
+   color: greenyellow;
+   background-color: greenyellow;
+
+}
+.minus_icons :hover
+{
+   font-size: 25px; 
+   color: red;
+   background-color: red;
+
+}
