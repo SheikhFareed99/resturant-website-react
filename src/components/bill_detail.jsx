@@ -1,6 +1,7 @@
 import React from 'react';
 import './bag.css';
 import { useSelector } from "react-redux";
+import { Link } from 'react-router-dom';
 function  bill_detail() 
 {
   const items = useSelector((state) => state.bag.items); 
@@ -41,7 +42,9 @@ function  bill_detail()
                 <span className="total_bill1">Total Bill</span>
                 <span className="total_bill2 gap_p2">Rs {total_bill}</span>
               </div>
+              <Link to="/Order" style={{ textDecoration: "none", color: "black" }}>
               <button className='order'>Place order</button>
+              </Link>
             </div>
             </div>
     

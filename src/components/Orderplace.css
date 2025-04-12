@@ -1,0 +1,16 @@
+.orderplace
+{
+    height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+h1{
+    color: rgb(245, 152, 31);
+}
+h3{
+    margin-left: 90px;
+    color: rgb(199, 159, 107);
+}

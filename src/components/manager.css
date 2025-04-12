@@ -1,0 +1,23 @@
+/* Header Styles */
+.header {
+    background: #333;
+    color: white;
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+  }
+  
+  .logo {
+    margin-left: 20px;
+    font-size: 24px;
+  }
+  
+  /* Menu Button */
+  .menu-btn {
+    font-size: 24px;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+  }
+  
