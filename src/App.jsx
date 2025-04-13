@@ -10,6 +10,7 @@ import Bag_r from './router/bag_r';
 import Chinese_r from './router/Chinese_r';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Orderplace from './components/Orderplace';
+import Customer_history from './components/customers_orders_history.jsx';
 
 
 const router = createBrowserRouter([
@@ -65,6 +66,10 @@ const router = createBrowserRouter([
     path: "/order",
     element: <Orderplace />
   },
+  {
+    path: "/customer_history",
+    element:<Customer_history />
+  }
 
 ]);
 
