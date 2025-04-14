@@ -1,167 +1,192 @@
-.bag_div
-{
+.bag_div {
     display: flex;
     flex-direction: row;
-  margin-left: 180px;
-  margin-right: 180px;
-  margin-bottom: 20px;
-  margin-top: 40px;
-}
-.bag_container
-{
-display: flex;
-flex-direction: column;
-gap:5px;
-width: 500px;
-}
-.bag_summary
-{
-  width: 500px;
-  height: 150px;
-  display: flex;
-  flex-direction: row;
-  gap: 8px;
-  border: 1px solid rgb(194, 199, 204);
+    margin-left: 180px;
+    margin-right: 180px;
+    margin-bottom: 20px;
+    margin-top: 40px;
+  }
   
-}
-.img_d
-{
+  .bag_container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 500px;
+  }
+  
+  .bag_summary {
+    width: 500px;
+    height: 150px;
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    border: 1px solid rgb(194, 199, 204);
+  }
+  
+  .img_d {
     width: 100px;
     height: 150px;
-}
-.img_d img{
+  }
+  .img_d img {
     width: 100px;
     height: 150px;
     object-fit: cover;
-}
-
-.detail_i
-{
-   margin:5px;
-}
-.discription
-{
+  }
+  
+  .detail_i {
+    margin: 5px;
+  }
+  
+  .discription {
     margin-top: 5px;
     font-size: 13px;
-}
-.price_bag
-{
+  }
+  
+  .price_bag {
     margin-top: 5px;
     font-size: 13px;
     font-weight: bold;
-}
-
-.delivery
-{
+  }
+  
+  .delivery {
     margin-top: 8px;
     font-size: 14px;
-}
-.delivery span{
+  }
+  .delivery span {
     font-weight: bold;
-}
-
-.bill
-{
+  }
+  
+  .bill {
     width: 280px;
-    height: 220px;
-   
+    height: auto;
     display: flex;
     flex-direction: column;
     gap: 10px;
     margin-left: 40px;
-}
-.gap_p
-{
- display:flex;
- flex-direction: row;
- justify-content: space-between;
- font-size: 14px;
-}
-.gap_p2
-{
+    padding: 10px;
+    border: 1px solid #ccc;
+    background-color: #fafafa;
+    border-radius: 8px;
+  }
+  
+  .gap_p {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: 14px;
+  }
+  
+  .gap_p2 {
     font-size: 14px;
     font-weight: bold;
-}
-.discount2
-{
+  }
+  
+  .discount2 {
     color: rgb(0, 81, 255);
-}
-.total_bill
-{
+  }
+  
+  .total_bill {
     font-weight: bold;
-}
-.thin-light-hr {
+  }
+  
+  .thin-light-hr {
     border: none;
-    border-top: 1px solid #fff6f6d0; 
+    border-top: 1px solid #fff6f6d0;
     margin: 10px 0;
   }
-
-  .order
-  {
+  
+  .order {
     width: 100%;
     height: 40px;
     background-color: rgb(255, 55, 88);
     color: white;
     font-weight: bold;
     border: none;
+    border-radius: 4px;
+    cursor: pointer;
   }
-  .title_trash
-  {
+  
+  .order:hover {
+    background-color: rgb(220, 45, 75);
+  }
+  
+  .title_trash {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
   }
- .count{
-   color: rgb(219, 42, 42);
-   font-size: 14px;
-   position: absolute;
   
-   left: 1223px;
-   border-radius: 30%;
- 
-   top:16px
-   }
-
-.quantity_icons2
-{
+  .count {
+    color: rgb(219, 42, 42);
+    font-size: 14px;
+    position: absolute;
+    left: 1223px;
+    border-radius: 30%;
+    top: 16px;
+  }
+  
+  .quantity_icons2 {
     width: 70px;
     margin-top: 10px;
     margin-left: 315px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-}
-.plus_icons2
-{
-   font-size: 25px; 
-
-}
-.minus_icons2
-{
-   font-size: 25px; 
-
-}
-.order_count2
-{
-    margin-top:3px;
-    font-weight: bold;
-}
-.plus_icons2 :hover
-{
-   font-size: 25px; 
-   color: greenyellow;
-   background-color: greenyellow;
-
-}
-.minus_icons2 :hover
-{
-   font-size: 25px; 
-   color: red;
-   background-color: red;
-
-}
-
-.trash:hover{
-    color: red;
+  }
   
-}
+  .plus_icons2 {
+    font-size: 25px;
+  }
+  
+  .minus_icons2 {
+    font-size: 25px;
+  }
+  
+  .order_count2 {
+    margin-top: 3px;
+    font-weight: bold;
+  }
+  
+  .plus_icons2 :hover {
+    font-size: 25px;
+    color: greenyellow;
+    background-color: greenyellow;
+  }
+  
+  .minus_icons2 :hover {
+    font-size: 25px;
+    color: red;
+    background-color: red;
+  }
+  
+  .trash:hover {
+    color: red;
+  }
+
+  .payment-options {
+    display: flex;
+    flex-direction: row; /* horizontal layout */
+    gap: 20px; /* space between options */
+    font-size: 13px; /* smaller font */
+    align-items: center;
+    margin-top: 8px;
+  }
+  
+  .payment-options label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+  }
+  
+  .payment-options input[type="radio"] {
+    transform: scale(1); 
+  }
+  
+  
+  .error-message {
+    color: red;
+    font-size: 13px;
+    margin-top: -4px;
+  }
+  

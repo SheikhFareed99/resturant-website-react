@@ -11,7 +11,7 @@ import Chinese_r from './router/Chinese_r';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Orderplace from './components/Orderplace';
 import Customer_history from './components/customers_orders_history.jsx';
-
+import Wallet from './components/add_money.jsx';
 
 const router = createBrowserRouter([
   {
@@ -25,6 +25,11 @@ const router = createBrowserRouter([
   {
     path: "/manager",
     element: <Manager />
+  },
+
+  {
+    path: "/wallet",
+    element: <Wallet />
   },
   {
     path: "/login",
