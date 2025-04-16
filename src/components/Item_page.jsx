@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Layout from './layout2';
 import './item_page.css';
 
 function ItemPage() {
+  // Product states
   const [addProduct, setAddProduct] = useState({
     ItemName: '',
     Category: '',
@@ -16,26 +17,175 @@ function ItemPage() {
     Quantity: ''
   });
 
-  const [removeProduct, setRemoveProduct] = useState({
-    productId: ''
+  // Ingredient states
+  const [ingredients, setIngredients] = useState([]);
+  const [selectedIngredients, setSelectedIngredients] = useState([]);
+  const [currentIngredient, setCurrentIngredient] = useState({
+    IngredientID: '',
+    Quantity: ''
   });
+  const [loadingIngredients, setLoadingIngredients] = useState(false);
+  const [ingredientError, setIngredientError] = useState(null);
 
+  // Other states
+  const [removeProduct, setRemoveProduct] = useState({ productId: '' });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [menuItems, setMenuItems] = useState([]);
   const [viewLoading, setViewLoading] = useState(false);
   const [viewError, setViewError] = useState(null);
+  const [showRecipeSection, setShowRecipeSection] = useState(false);
 
-  // ... (previous handlers remain the same)
+  // Fetch ingredients on component mount
+  useEffect(() => {
+    const fetchIngredients = async () => {
+      setLoadingIngredients(true);
+      setIngredientError(null);
+      try {
+        const response = await axios.get('http://localhost:3000/api/v2/getAllIngredientNames');
+        setIngredients(response.data);
+      } catch (err) {
+        console.error('Error fetching ingredients:', err);
+        setIngredientError(err.response?.data?.error || err.message);
+      } finally {
+        setLoadingIngredients(false);
+      }
+    };
+    fetchIngredients();
+  }, []);
 
+  // Handle product input changes
+  const handleAddInputChange = (e) => {
+    const { name, value } = e.target;
+    setAddProduct(prev => ({ ...prev, [name]: value }));
+  };
+
+  // Handle ingredient selection
+  const handleIngredientSelect = (e) => {
+    setCurrentIngredient(prev => ({
+      ...prev,
+      IngredientID: e.target.value
+    }));
+  };
+
+  // Handle ingredient quantity change
+  const handleIngredientQuantityChange = (e) => {
+    setCurrentIngredient(prev => ({
+      ...prev,
+      Quantity: e.target.value
+    }));
+  };
+
+  // Add ingredient to recipe
+  const addIngredientToRecipe = () => {
+    if (!currentIngredient.IngredientID || !currentIngredient.Quantity) {
+      alert('Please select an ingredient and specify quantity');
+      return;
+    }
+
+    const existingIndex = selectedIngredients.findIndex(
+      ing => ing.IngredientID === currentIngredient.IngredientID
+    );
+
+    if (existingIndex >= 0) {
+      const updated = [...selectedIngredients];
+      updated[existingIndex].Quantity = currentIngredient.Quantity;
+      setSelectedIngredients(updated);
+    } else {
+      const selected = ingredients.find(ing => 
+        ing.IngredientID == currentIngredient.IngredientID
+      );
+      
+      setSelectedIngredients(prev => [
+        ...prev,
+        {
+          IngredientID: currentIngredient.IngredientID,
+          IngredientName: selected.IngredientName,
+          Quantity: currentIngredient.Quantity
+        }
+      ]);
+    }
+
+    setCurrentIngredient({ IngredientID: '', Quantity: '' });
+  };
+
+  // Remove ingredient from recipe
+  const removeIngredientFromRecipe = (ingredientId) => {
+    setSelectedIngredients(prev => 
+      prev.filter(ing => ing.IngredientID != ingredientId)
+    );
+  };
+
+  // Submit product with recipe
+  const handleAddSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+
+    try {
+      if (!showRecipeSection) {
+        // Validate basic product info
+        if (!addProduct.ItemName || !addProduct.Category) {
+          throw new Error('Item name and category are required');
+        }
+        setShowRecipeSection(true);
+        return;
+      }
+
+      // Prepare complete product data
+      const productData = {
+        ...addProduct,
+        CookingTime: parseInt(addProduct.CookingTime),
+        CurrentPrice: parseFloat(addProduct.CurrentPrice),
+        AvailabilityStatus: parseInt(addProduct.AvailabilityStatus),
+        Quantity: parseInt(addProduct.Quantity),
+        Recipe: selectedIngredients.map(ing => ({
+          IngredientID: parseInt(ing.IngredientID),
+          Quantity: parseFloat(ing.Quantity)
+        }))
+      };
+
+      const response = await axios.post(
+        'http://localhost:3000/api/v2/addproduct', 
+        productData,
+        { headers: { 'Content-Type': 'application/json' } }
+      );
+
+      alert('Product added successfully!');
+      resetForms();
+    } catch (err) {
+      console.error('Error adding product:', err);
+      setError(err.response?.data?.error || err.message);
+      alert(`Failed to add product: ${err.response?.data?.error || err.message}`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Reset all forms
+  const resetForms = () => {
+    setAddProduct({
+      ItemName: '',
+      Category: '',
+      SpiceLevel: '',
+      CookingTime: '',
+      CurrentPrice: '',
+      AvailabilityStatus: 0,
+      ItemDescription: '',
+      Image: '',
+      Quantity: ''
+    });
+    setSelectedIngredients([]);
+    setShowRecipeSection(false);
+  };
+
+  // View products handler (keep your existing implementation)
   const handleViewProducts = async (e) => {
     e.preventDefault();
     setViewLoading(true);
     setViewError(null);
-
     try {
       const response = await axios.get('http://localhost:3000/api/v2/menu');
-      console.log('Menu items fetched:', response.data);
       setMenuItems(response.data.Menu || []);
     } catch (err) {
       console.error('Error fetching menu items:', err);
@@ -44,94 +194,25 @@ function ItemPage() {
       setViewLoading(false);
     }
   };
-  const handleAddInputChange = (e) => {
-    const { name, value } = e.target;
-    setAddProduct(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
 
-  const handleRemoveInputChange = (e) => {
-    setRemoveProduct({
-      productId: e.target.value
-    });
-  };
-
-  const handleAddSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError(null);
-
-    try {
-   
-      const productData = {
-        ItemName: addProduct.ItemName,
-        Category: addProduct.Category,
-        SpiceLevel: addProduct.SpiceLevel,
-        CookingTime: parseInt(addProduct.CookingTime),
-        CurrentPrice: parseInt(addProduct.CurrentPrice),
-        AvailabilityStatus: parseInt(addProduct.AvailabilityStatus),
-        ItemDescription: addProduct.ItemDescription,
-        Image: addProduct.Image,
-        Quantity: parseInt(addProduct.Quantity)
-      };
-
-      const response = await axios.post('http://localhost:3000/api/v2/addproduct', productData, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-
-      console.log('Product added:', response.data);
-      alert(response.data.message || 'Product added successfully!');
-      
-      // Reset form
-      setAddProduct({
-        ItemName: '',
-        Category: '',
-        SpiceLevel: '',
-        CookingTime: '',
-        CurrentPrice: '',
-        AvailabilityStatus: 0,
-        ItemDescription: '',
-        Image: '',
-        Quantity: ''
-      });
-    } catch (err) {
-      console.error('Error adding product:', err);
-      const errorMessage = err.response?.data?.message || err.message;
-      setError(errorMessage);
-      alert('Failed to add product: ' + errorMessage);
-    } finally {
-      setLoading(false);
-    }
-  };
-
+  // Remove product handler (keep your existing implementation)
   const handleRemoveSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
-
     try {
       if (!removeProduct.productId) {
         throw new Error('Product ID is required');
       }
-
-      const response = await axios.delete(`http://localhost:3000/api/v2/removemenuitem/${removeProduct.productId}`);
-
-      console.log('Product removed:', response.data);
-      alert(response.data.message || `Product with ID ${removeProduct.productId} removed successfully!`);
-      
-      // Reset form    
-      setRemoveProduct({
-        productId: ''
-      });
+      await axios.delete(
+        `http://localhost:3000/api/v2/removemenuitem/${removeProduct.productId}`
+      );
+      alert(`Product with ID ${removeProduct.productId} removed successfully!`);
+      setRemoveProduct({ productId: '' });
     } catch (err) {
       console.error('Error removing product:', err);
-      const errorMessage = err.response?.data?.message || err.message;
-      setError(errorMessage);
-      alert('Failed to remove product: ' + errorMessage);
+      setError(err.response?.data?.message || err.message);
+      alert('Failed to remove product: ' + (err.response?.data?.message || err.message));
     } finally {
       setLoading(false);
     }
@@ -140,129 +221,216 @@ function ItemPage() {
   return (
     <Layout>
       <div className="item-page-container">
-      <h1 style={{ color: 'black' }}>Product Management</h1>
+        <h1>Product Management</h1>
         
+        {/* Error displays */}
         {error && <div className="error-message">{error}</div>}
-        
+        {ingredientError && <div className="error-message">{ingredientError}</div>}
+
         {/* Add Product Section */}
         <div className="form-section">
-          <h2 style={{ color: '' }}>Add New Product:</h2>
+          <h2>Add New Product</h2>
           <form onSubmit={handleAddSubmit} className="product-form">
-            <div className="form-group">
-              <label>Item Name:</label>
-              <input
-                type="text"
-                name="ItemName"
-                value={addProduct.ItemName}
-                onChange={handleAddInputChange}
-                required
-              />
-            </div>
-            
-            <div className="form-group">
-              <label>Category:</label>
-              <input
-                type="text"
-                name="Category"
-                value={addProduct.Category}
-                onChange={handleAddInputChange}
-                required
-              />
-            </div>
-            
-            <div className="form-group">
-              <label>Spice Level:</label>
-              <select
-                name="SpiceLevel"
-                value={addProduct.SpiceLevel}
-                onChange={handleAddInputChange}
-                required
+            {/* Basic Product Info */}
+            {!showRecipeSection ? (
+              <>
+                <div className="form-row">
+                  <div className="form-group">
+                    <label>Item Name:</label>
+                    <input
+                      type="text"
+                      name="ItemName"
+                      value={addProduct.ItemName}
+                      onChange={handleAddInputChange}
+                      required
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>Category:</label>
+                    <input
+                      type="text"
+                      name="Category"
+                      value={addProduct.Category}
+                      onChange={handleAddInputChange}
+                      required
+                    />
+                  </div>
+                </div>
+
+                {/* Other product fields */}
+                <div className="form-row">
+                  <div className="form-group">
+                    <label>Spice Level:</label>
+                    <select
+                      name="SpiceLevel"
+                      value={addProduct.SpiceLevel}
+                      onChange={handleAddInputChange}
+                      required
+                    >
+                      <option value="">Select</option>
+                      <option value="Mild">Mild</option>
+                      <option value="Medium">Medium</option>
+                      <option value="Hot">Hot</option>
+                    </select>
+                  </div>
+                  <div className="form-group">
+                    <label>Price:</label>
+                    <input
+                      type="number"
+                      name="CurrentPrice"
+                      value={addProduct.CurrentPrice}
+                      onChange={handleAddInputChange}
+                      required
+                      min="0"
+                      step="0.01"
+                    />
+                  </div>
+                </div>
+
+                <div className="form-row">
+                  <div className="form-group">
+                    <label>Cooking Time (mins):</label>
+                    <input
+                      type="number"
+                      name="CookingTime"
+                      value={addProduct.CookingTime}
+                      onChange={handleAddInputChange}
+                      required
+                      min="1"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>Availability:</label>
+                    <select
+                      name="AvailabilityStatus"
+                      value={addProduct.AvailabilityStatus}
+                      onChange={handleAddInputChange}
+                      required
+                    >
+                      <option value="1">Available</option>
+                      <option value="0">Not Available</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="form-group">
+                  <label>Description:</label>
+                  <textarea
+                    name="ItemDescription"
+                    value={addProduct.ItemDescription}
+                    onChange={handleAddInputChange}
+                    required
+                  />
+                </div>
+
+                <div className="form-row">
+                  <div className="form-group">
+                    <label>Image URL:</label>
+                    <input
+                      type="text"
+                      name="Image"
+                      value={addProduct.Image}
+                      onChange={handleAddInputChange}
+                      required
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>Initial Quantity:</label>
+                    <input
+                      type="number"
+                      name="Quantity"
+                      value={addProduct.Quantity}
+                      onChange={handleAddInputChange}
+                      required
+                      min="1"
+                    />
+                  </div>
+                </div>
+              </>
+            ) : (
+              /* Recipe Section */
+              <div className="recipe-section">
+                <h3>Build Recipe</h3>
+                
+                <div className="ingredient-selector">
+                  <select
+                    value={currentIngredient.IngredientID}
+                    onChange={handleIngredientSelect}
+                    disabled={loadingIngredients}
+                  >
+                    <option value="">Select Ingredient</option>
+                    {ingredients.map(ing => (
+                      <option key={ing.IngredientID} value={ing.IngredientID}>
+                        {ing.IngredientName}
+                      </option>
+                    ))}
+                  </select>
+                  
+                  {currentIngredient.IngredientID && (
+                    <>
+                      <input
+                        type="number"
+                        placeholder="Quantity"
+                        value={currentIngredient.Quantity}
+                        onChange={handleIngredientQuantityChange}
+                        step="0.1"
+                        min="0"
+                      />
+                      <button
+                        type="button"
+                        onClick={addIngredientToRecipe}
+                        className="add-btn"
+                      >
+                        Add
+                      </button>
+                    </>
+                  )}
+                </div>
+
+                {selectedIngredients.length > 0 && (
+                  <div className="selected-ingredients">
+                    <h4>Recipe Ingredients:</h4>
+                    <ul>
+                      {selectedIngredients.map(ing => (
+                        <li key={ing.IngredientID}>
+                          <span>{ing.IngredientName} - {ing.Quantity}</span>
+                          <button
+                            type="button"
+                            onClick={() => removeIngredientFromRecipe(ing.IngredientID)}
+                            className="remove-btn"
+                          >
+                            ×
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            )}
+
+            <div className="form-actions">
+              {showRecipeSection && (
+                <button
+                  type="button"
+                  onClick={() => setShowRecipeSection(false)}
+                  className="secondary-btn"
+                >
+                  Back
+                </button>
+              )}
+              <button 
+                type="submit" 
+                className="primary-btn"
+                disabled={loading}
               >
-                <option value="">Select Spice Level</option>
-                <option value="Mild">Mild</option>
-                <option value="Medium">Medium</option>
-                <option value="Hot">Hot</option>
-                <option value="Extra Hot">Extra Hot</option>
-              </select>
+                {loading ? 'Processing...' : 
+                 showRecipeSection ? 'Complete Product Addition' : 'Next: Add Recipe'}
+              </button>
             </div>
-            
-            <div className="form-group">
-              <label>Cooking Time (minutes):</label>
-              <input
-                type="number"
-                name="CookingTime"
-                value={addProduct.CookingTime}
-                onChange={handleAddInputChange}
-                required
-              />
-            </div>
-            
-            <div className="form-group">
-              <label>Current Price:</label>
-              <input
-                type="number"
-                name="CurrentPrice"
-                value={addProduct.CurrentPrice}
-                onChange={handleAddInputChange}
-                required
-              />
-            </div>
-            
-            <div className="form-group">
-              <label>Availability Status:</label>
-              <select
-                name="AvailabilityStatus"
-                value={addProduct.AvailabilityStatus}
-                onChange={handleAddInputChange}
-                required
-              >
-                <option value="0">Not Available</option>
-                <option value="1">Available</option>
-              </select>
-            </div>
-            
-            <div className="form-group">
-              <label>Item Description:</label>
-              <textarea
-                name="ItemDescription"
-                value={addProduct.ItemDescription}
-                onChange={handleAddInputChange}
-                required
-              />
-            </div>
-            
-            <div className="form-group">
-              <label>Image URL:</label>
-              <input
-                type="text"
-                name="Image"
-                value={addProduct.Image}
-                onChange={handleAddInputChange}
-                required
-              />
-            </div>
-            
-            <div className="form-group">
-              <label>Quantity:</label>
-              <input
-                type="number"
-                name="Quantity"
-                value={addProduct.Quantity}
-                onChange={handleAddInputChange}
-                required
-              />
-            </div>
-            
-            <button 
-              type="submit" 
-              className="submit-btn"
-              disabled={loading}
-            >
-              { 'Add Product'}
-            </button>
           </form>
         </div>
-        
+
         {/* Remove Product Section */}
         <div className="form-section">
           <h2>Remove Product</h2>
@@ -273,19 +441,18 @@ function ItemPage() {
                 type="text"
                 name="productId"
                 value={removeProduct.productId}
-                onChange={handleRemoveInputChange}
+                onChange={(e) => setRemoveProduct({ productId: e.target.value })}
                 required
               />
             </div>
-            
-            <button type="submit" className="submit-btn remove-btn">
-              Remove Product
+            <button type="submit" className="danger-btn" disabled={loading}>
+              {loading ? 'Removing...' : 'Remove Product'}
             </button>
           </form>
         </div>
 
-  {/* View Products Section */}
-  <div className="form-section">
+ {/* View Products Section */}
+ <div className="form-section">
           <h2>View Products</h2>
           <form onSubmit={handleViewProducts}>
             <button 
