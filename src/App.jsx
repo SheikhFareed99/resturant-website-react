@@ -16,7 +16,7 @@ import Wallet from './components/add_money.jsx';
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Body1 />
+    element: <Auth />
   },
   {
     path: "/employee",
@@ -32,8 +32,8 @@ const router = createBrowserRouter([
     element: <Wallet />
   },
   {
-    path: "/login",
-    element: <Auth />
+    path: "/home",
+    element: <Body1 />
   },
   {
     path: "/signup",

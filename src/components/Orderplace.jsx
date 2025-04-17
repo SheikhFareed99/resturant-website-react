@@ -5,7 +5,11 @@ import { useSelector } from "react-redux";
 
 const Orderplace = () => {
   const items = useSelector((state) => state.bag.items); 
-  const customerId = 1 ; // Replace with dynamic value if needed
+
+  const customerId = useSelector((state) => state.user.customerId);
+  
+  console.log("Customer ID:", customerId);
+  
 
   const handleSubmitOrder = async () => {
     try {
