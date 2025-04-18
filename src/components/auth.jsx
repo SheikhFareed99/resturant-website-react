@@ -4,7 +4,7 @@ import axios from 'axios';
 import './auth.css';
 import { useDispatch } from 'react-redux';
 import { setCustomerId } from '../stores/userSlice'; 
-  import { useSelector } from 'react-redux';
+
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

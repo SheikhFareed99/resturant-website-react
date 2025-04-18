@@ -26,7 +26,7 @@ function Header() {
       <FiAlignJustify className="menu_icon" onClick={()=>{handleClick()}} />
      
       
-     <Link to="/" style={{ textDecoration: "none", color: "black" }}>
+     <Link to="/manager" style={{ textDecoration: "none", color: "black" }}>
         <h1 className="header_box">Grubify</h1>
       </Link>
       {isSidebarVisible && <Sidebar setSidebarVisible={setSidebarVisible} />}

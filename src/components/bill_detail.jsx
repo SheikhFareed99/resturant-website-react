@@ -7,8 +7,11 @@ import axios from 'axios';
 function BillDetail() {
   const items = useSelector((state) => state.bag.items);
   const [paymentMethod, setPaymentMethod] = useState("card");
+  const [orderType, setOrderType] = useState("Delivery");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+
+  const customerid = useSelector((state) => state.user.customerId);
 
   let total_mri = 0;
   for (let i = 0; i < items.length; i++) {
@@ -24,17 +27,32 @@ function BillDetail() {
   const handlePlaceOrder = async () => {
     setError("");
 
+   
+    if (orderType === "dine-in") {
+      try {
+        const tableCheck = await axios.get("http://localhost:3000/api/v2/checkTableAvailable");
+
+        if (!tableCheck.data.available) {
+          setError("No seat available for dine-in. Please choose delivery.");
+          return;
+        }
+      } catch (err) {
+        setError("Error checking seat availability.");
+        return;
+      }
+    }
+
     if (paymentMethod === "card") {
-      navigate('/Order');
+      navigate('/Order', { state: { orderType } });
     } else if (paymentMethod === "wallet") {
       try {
         const res = await axios.post('http://localhost:3000/api/v2/deductmoneytowallet', {
-          customerId: 1,
+          customerId: customerid,
           amount: total_bill
         });
 
         if (res.data && res.data.Success === 1) {
-          navigate('/Order');
+          navigate('/Order', { state: { orderType } });
         } else {
           setError(res.data?.Message || "Wallet deduction failed");
         }
@@ -74,13 +92,26 @@ function BillDetail() {
         <div style={{ marginTop: '10px', fontSize: '12px', fontWeight:'900' }}>
           <label htmlFor="paymentMethod">Select Payment Method: </label>
           <select
-          style={{ borderRadius: '5px', padding: '2px', marginLeft: '15px' }}
+            style={{ borderRadius: '5px', padding: '2px', marginLeft: '15px' }}
             id="paymentMethod"
             value={paymentMethod}
             onChange={(e) => setPaymentMethod(e.target.value)}
           >
             <option value="card">Pay with Card</option>
             <option value="wallet">Pay with Wallet</option>
+          </select>
+        </div>
+
+        <div style={{ marginTop: '10px', fontSize: '12px', fontWeight:'900' }}>
+          <label htmlFor="orderType">Select Order Type: </label>
+          <select
+            style={{ borderRadius: '5px', padding: '2px', marginLeft: '15px' }}
+            id="orderType"
+            value={orderType}
+            onChange={(e) => setOrderType(e.target.value)}
+          >
+            <option value="delivery">Delivery</option>
+            <option value="Dine-in">Dine In</option>
           </select>
         </div>
 

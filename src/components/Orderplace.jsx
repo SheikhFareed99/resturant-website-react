@@ -2,18 +2,19 @@ import React from "react";
 import Layout from "../components/Layout";
 import './Orderplace.css';
 import { useSelector } from "react-redux";
-
+import { useLocation } from "react-router-dom";
 const Orderplace = () => {
   const items = useSelector((state) => state.bag.items); 
-
+  const location = useLocation();
+  const orderType = location.state?.orderType || "delivery";
   const customerId = useSelector((state) => state.user.customerId);
-  
+  console.log("Received Order Type:", orderType);
   console.log("Customer ID:", customerId);
   
 
   const handleSubmitOrder = async () => {
     try {
-      // Only keep id and quantity
+    
       const order = items.map(item => ({
         item_id: item.id,
         quantity: item.quantity,
@@ -25,10 +26,11 @@ const Orderplace = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           customer_id: customerId,
-          order: order
+          order: order,
+          order_type: orderType
         }),
       });
-
+      
       const result = await response.json();
       console.log("Order response:", result);
       alert("Order placed successfully!");
