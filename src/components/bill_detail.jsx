@@ -28,7 +28,7 @@ function BillDetail() {
     setError("");
 
    
-    if (orderType === "dine-in") {
+    if (orderType.toLowerCase() === "dine-in") {
       try {
         const tableCheck = await axios.get("http://localhost:3000/api/v2/checkTableAvailable");
 
@@ -43,16 +43,16 @@ function BillDetail() {
     }
 
     if (paymentMethod === "card") {
-      navigate('/Order', { state: { orderType } });
+      navigate('/Order', { state: { orderType, paymentMethod } });
     } else if (paymentMethod === "wallet") {
       try {
         const res = await axios.post('http://localhost:3000/api/v2/deductmoneytowallet', {
           customerId: customerid,
           amount: total_bill
         });
-
+    
         if (res.data && res.data.Success === 1) {
-          navigate('/Order', { state: { orderType } });
+          navigate('/Order', { state: { orderType, paymentMethod } });
         } else {
           setError(res.data?.Message || "Wallet deduction failed");
         }

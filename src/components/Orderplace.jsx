@@ -7,6 +7,7 @@ const Orderplace = () => {
   const items = useSelector((state) => state.bag.items); 
   const location = useLocation();
   const orderType = location.state?.orderType || "delivery";
+  const paymentMethod = location.state?.paymentMethod || "card";
   const customerId = useSelector((state) => state.user.customerId);
   console.log("Received Order Type:", orderType);
   console.log("Customer ID:", customerId);
@@ -27,7 +28,8 @@ const Orderplace = () => {
         body: JSON.stringify({
           customer_id: customerId,
           order: order,
-          order_type: orderType
+          order_type: orderType,
+          PaymentMethod:paymentMethod
         }),
       });
       
