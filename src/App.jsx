@@ -12,8 +12,28 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Orderplace from './components/Orderplace';
 import Customer_history from './components/customers_orders_history.jsx';
 import Wallet from './components/add_money.jsx';
-
+import EmployeePage from './components/employee.jsx';
+import Inventary from  './components/inventary.jsx';
+import Ingredientinven from './components/ingredientinven.jsx'
+import Add_ingredient from './components/add_ingre.jsx';
+import DailySalesReport from './components/DailySalesReport.jsx';
+import UpdateSalary from './components/updatesalary.jsx';
+import OrdersPage from './components/ordersPage.jsx';
+import MonthlyReportPage from './components/MonthlyReportPage.jsx';
+import Vendor from './components/vendor.jsx';
 const router = createBrowserRouter([
+  {
+    path: "/OrdersPage",
+    element: <OrdersPage />
+  },
+  {
+    path: "/Vendor",
+    element: <Vendor />
+  },
+  {
+    path: "/MonthlyReportPage",
+    element: <MonthlyReportPage />
+  },
   {
     path: "/",
     element: <Auth />
@@ -74,6 +94,29 @@ const router = createBrowserRouter([
   {
     path: "/customer_history",
     element:<Customer_history />
+  }, {
+    path: "/inventary",
+    element: <Inventary />
+  },
+    {
+    path: "/ingredientinven",
+    element: <Ingredientinven />
+  },
+  {
+    path: "/add_ingredient",
+    element: <Add_ingredient />
+  },
+  {
+    path: "/DailySalesReport",
+    element: <DailySalesReport />
+  },
+  {
+    path: "/updatesalary",
+    element: <UpdateSalary />
+  },
+  {
+    path: "/employee",
+    element: <EmployeePage />
   }
 
 ]);

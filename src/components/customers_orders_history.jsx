@@ -2,41 +2,39 @@ import React, { useState, useEffect } from "react";
 import Layout from "../components/Layout";
 import axios from "axios";
 import "./customer_history.css";
-
+import { useSelector } from "react-redux";
 const CustomerHistory = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+  const customerId = useSelector((state) => state.user.customerId);
   useEffect(() => {
     const fetchOrderHistory = async () => {
       try {
-        // Get customer ID - in a real app this would come from auth or params
-        const customerId = 1; // TEST WITH KNOWN VALID CUSTOMER ID
+       
         
-        console.log("Starting fetch for customer ID:", customerId); // Debug log
+        console.log("Starting fetch for customer ID:", customerId); 
         
         const response = await axios.get(
           `http://localhost:3000/api/v2/customerorderhistory/${customerId}`,
           {
             headers: {
               "Content-Type": "application/json",
-              // Add authentication header if needed:
-              // "Authorization": `Bearer ${localStorage.getItem('token')}`
+             
             }
           }
         );
 
-        console.log("API Response:", response); // Debug log
+        console.log("API Response:", response); 
         
         if (response.data) {
-          // Handle both array and object responses
+         
           const ordersData = Array.isArray(response.data) 
             ? response.data 
             : response.data.Orders || [];
           
           setOrders(ordersData);
-          console.log("Orders data set:", ordersData); // Debug log
+          console.log("Orders data set:", ordersData);
         } else {
           setOrders([]);
         }
@@ -113,8 +111,7 @@ const CustomerHistory = () => {
                 <th>Date</th>
                 <th>Status</th>
                 <th>Total</th>
-                <th>Payment</th>
-                <th>Details</th>
+
               </tr>
             </thead>
             <tbody>
@@ -137,16 +134,7 @@ const CustomerHistory = () => {
                       ? `$${order.TotalAmount.toFixed(2)}` 
                       : "N/A"}
                   </td>
-                  <td>
-                    <span className={`status-badge ${getStatusClass(order.PaidStatus)}`}>
-                      {order.PaidStatus || "Pending"}
-                    </span>
-                  </td>
-                  <td>
-                    <button className="details-button">
-                      View Details
-                    </button>
-                  </td>
+ 
                 </tr>
               ))}
             </tbody>

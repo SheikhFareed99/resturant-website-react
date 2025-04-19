@@ -20,14 +20,14 @@ function BillDetail() {
       total_mri += (items[i].current_price * count);
   }
 
-  let platform_fee = 99;
-  let discount = 0;
-  let total_bill = total_mri + platform_fee - discount;
+  const discount = 0;
+  const taxPercent = paymentMethod === "card" ? 5 : 16;
+  const tax = Math.floor((total_mri * taxPercent) / 100);
+  const total_bill = total_mri + tax - discount;
 
   const handlePlaceOrder = async () => {
     setError("");
 
-   
     if (orderType.toLowerCase() === "dine-in") {
       try {
         const tableCheck = await axios.get("http://localhost:3000/api/v2/checkTableAvailable");
@@ -50,7 +50,7 @@ function BillDetail() {
           customerId: customerid,
           amount: total_bill
         });
-    
+
         if (res.data && res.data.Success === 1) {
           navigate('/Order', { state: { orderType, paymentMethod } });
         } else {
@@ -78,8 +78,8 @@ function BillDetail() {
         </div>
 
         <div className="tax gap_p">
-          <span className="tax1">Platform fee</span>
-          <span className="tax2 gap_p2">Rs {platform_fee}</span>
+          <span className="tax1">Tax ({taxPercent}%)</span>
+          <span className="tax2 gap_p2">Rs {tax}</span>
         </div>
 
         <hr className="thin-light-hr" />

@@ -12,7 +12,7 @@ function Sidebar({ setSidebarVisible })
           <ul className="sidebar-list">
             <hr id="hr-fast-food" />
             <div className="sidebar-item">
-            <Link to="/" style={{ textDecoration: "none", color: "black" }}>
+            <Link to="/home" style={{ textDecoration: "none", color: "black" }}>
               <span className=" hover-underline sidebar-text">Home</span>
               </Link>
               <span className="sidebar-symbol">&gt;</span>
@@ -54,7 +54,13 @@ function Sidebar({ setSidebarVisible })
               </Link>
               <span className="sidebar-symbol">&gt;</span>
             </div>
-            <hr id="hr-end" />
+            <hr id="hr-drinks" />
+            <div className="sidebar-item">
+            <Link to="/customer_history" style={{ textDecoration: "none", color: "black" }}>
+              <span className="hover-underline sidebar-text">order history</span>
+              </Link>
+              <span className="sidebar-symbol">&gt;</span>
+            </div>
           </ul>
         </div>
         <div className='adress'>

@@ -12,15 +12,15 @@ function Sidebar({ setSidebarVisible })
           <ul className="sidebar-list">
             <hr id="hr-fast-food" />
             <div className="sidebar-item">
-            <Link to="/" style={{ textDecoration: "none", color: "black" }}>
-              <span className=" hover-underline sidebar-text">orders</span>
+            <Link to="/wallet" style={{ textDecoration: "none", color: "black" }}>
+              <span className="hover-underline sidebar-text">customer wallet</span>
               </Link>
               <span className="sidebar-symbol">&gt;</span>
             </div>
             <hr id="hr-chinese" />
             <div className="sidebar-item">
 
-              <Link to="/chineese" style={{ textDecoration: "none", color: "black" }}>
+              <Link to="/employee" style={{ textDecoration: "none", color: "black" }}>
               <span className=" hover-underline sidebar-text">Employees</span>
               </Link>
 
@@ -28,40 +28,63 @@ function Sidebar({ setSidebarVisible })
             </div>
             <hr id="hr-pasta" />
             <div className="sidebar-item">
-            <Link to="/pasta" style={{ textDecoration: "none", color: "black" }}>
+            <Link to="/Orderspage" style={{ textDecoration: "none", color: "black" }}>
               <span className="hover-underline sidebar-text">history</span>
               </Link>
               <span className="sidebar-symbol">&gt;</span>
             </div>
             <hr id="hr-desserts" />
             <div className="sidebar-item">
-            <Link to="/desserts" style={{ textDecoration: "none", color: "black" }}>
-              <span className="hover-underline sidebar-text">users</span>
+            <Link to="/add_ingredient" style={{ textDecoration: "none", color: "black" }}>
+              <span className="hover-underline sidebar-text">ingredient data</span>
               </Link>
               <span className="sidebar-symbol">&gt;</span>
             </div>
             <hr id="hr-local" />
             <div className="sidebar-item">
-            <Link to="/local" style={{ textDecoration: "none", color: "black" }}>
-              <span className="hover-underline sidebar-text">inventories</span>
+            <Link to="/DailySalesReport" style={{ textDecoration: "none", color: "black" }}>
+              <span className="hover-underline sidebar-text">Daily sales report</span>
               </Link>
               <span className="sidebar-symbol">&gt;</span>
             </div>
             <hr id="hr-drinks" />
             <div className="sidebar-item">
-            <Link to="/drinks" style={{ textDecoration: "none", color: "black" }}>
-              <span className="hover-underline sidebar-text">suppliers</span>
+            <Link to="/ingredientinven" style={{ textDecoration: "none", color: "black" }}>
+              <span className="hover-underline sidebar-text">ingredient add</span>
+              </Link>
+              <span className="sidebar-symbol">&gt;</span>
+            </div>
+            <hr id="hr-end" />
+            <div className="sidebar-item">
+            <Link to="/updatesalary" style={{ textDecoration: "none", color: "black" }}>
+              <span className="hover-underline sidebar-text">update employee salary</span>
               </Link>
               <span className="sidebar-symbol">&gt;</span>
             </div>
             <hr id="hr-end" />
             <div className="sidebar-item">
             <Link to="/items" style={{ textDecoration: "none", color: "black" }}>
-              <span className="hover-underline sidebar-text">items</span>
+              <span className="hover-underline sidebar-text">Products</span>
               </Link>
               <span className="sidebar-symbol">&gt;</span>
             </div>
             <hr id="hr-end" />
+            <div className="sidebar-item">
+            <Link to="/MonthlyReportPage" style={{ textDecoration: "none", color: "black" }}>
+              <span className="hover-underline sidebar-text">Financial report</span>
+              </Link>
+              <span className="sidebar-symbol">&gt;</span>
+            </div>
+            <hr id="hr-end" />
+            <div className="sidebar-item">
+            <Link to="/Vendor" style={{ textDecoration: "none", color: "black" }}>
+              <span className="hover-underline sidebar-text">Vendor managment</span>
+              </Link>
+              <span className="sidebar-symbol">&gt;</span>
+            </div>
+            <hr id="hr-end" />
+  
+            
           </ul>
         </div>
         <div className='adress'>

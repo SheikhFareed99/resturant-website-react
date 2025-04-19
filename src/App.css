@@ -89,6 +89,23 @@ header {
   left:500px;
 }
 
+.signout-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  padding: 8px 16px;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  z-index: 1000;
+  transition: background-color 0.3s;
+}
+
+.signout-btn:hover {
+  background-color: #d32f2f;
+}
 .input-wrapper {
   position: absolute;
   width: 330px; 

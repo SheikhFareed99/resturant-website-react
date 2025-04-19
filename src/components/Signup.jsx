@@ -12,7 +12,7 @@ const Signup = () => {
   const [gender, setGender] = useState("");
   const [phoneNo, setPhoneNo] = useState("");
   const [address, setAddress] = useState("");
-  const [role, setRole] = useState("");
+  const role='Customer';
   const [error, setError] = useState("");
   const navigate = useNavigate(); 
   
@@ -41,7 +41,7 @@ const Signup = () => {
 
       console.log(response.data);
       alert("User registered successfully!");
-      navigate("/login");
+      navigate("/");
     } catch (error) {
       console.error("Registration failed:", error);
       setError("User registration failed. Please try again.");
@@ -97,18 +97,10 @@ const Signup = () => {
 
           <div className="form-group">
             <label htmlFor="address">Address</label>
-            <input type="text" id="address" value={address} onChange={(e) => setAddress(e.target.value)} placeholder="Enter your address" />
+            <input type="text" id="address" value={address} onChange={(e) => setAddress(e.target.value)}  placeholder="Enter your address" />
           </div>
 
-          <div className="form-group">
-            <label htmlFor="role">Role (Customer or Employee)</label>
-            <select id="role" value={role} onChange={(e) => setRole(e.target.value)}>
-              <option value="">Select Role</option>
-              <option value="Customer">Customer</option>
-              <option value="Employee">Employee</option>
-            </select>
-          </div>
-
+         
           <div className="form-group">
             <label htmlFor="password">Password</label>
             <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Enter your password" />

@@ -1,23 +1,108 @@
-/* Header Styles */
-.header {
-    background: #333;
-    color: white;
-    display: flex;
-    align-items: center;
-    padding: 10px 20px;
-  }
-  
-  .logo {
-    margin-left: 20px;
-    font-size: 24px;
-  }
-  
-  /* Menu Button */
-  .menu-btn {
-    font-size: 24px;
-    background: none;
-    border: none;
-    color: white;
-    cursor: pointer;
-  }
-  
+/* Add this to your manager.css file */
+
+.active-orders-heading {
+  color: #ffa500;
+  font-weight: bold;
+  font-size: 2rem;
+  margin-bottom: 20px;
+  padding-left: 20px;
+}
+
+.orders-table {
+  width: 90%;
+  margin: 0 auto;
+  border-collapse: collapse;
+  background-color: #1a1a1a;
+  color: rgb(185, 185, 185);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 280px;
+}
+
+/* Explicitly set all cells and rows to the same background */
+.orders-table tr,
+.orders-table td,
+.orders-table th {
+  background-color: #1a1a1a !important; /* Force override any other styles */
+}
+
+.orders-table th {
+  background-color: #000000 !important; /* Header color */
+  color: #ffa500;
+  padding: 12px;
+  text-align: center;
+}
+
+.orders-table td {
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid #333; /* Darker border */
+}
+
+
+.orders-table tr:nth-child(odd),
+.orders-table tr:nth-child(even) {
+  background-color: #1a1a1a !important;
+}
+
+/* Hover effect */
+.orders-table tr:hover td {
+  background-color: #2a2a2a !important;
+}
+
+
+.expand-btn {
+  background: none;
+  color: #ffa500;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  padding: 5px;
+}
+
+.select-status {
+  padding: 5px 10px;
+  border-radius: 5px;
+  background-color: #333;
+  color: white;
+  border: 1px solid #555;
+}
+
+.success-message {
+  text-align: center;
+  color: #4caf50;
+  background-color: #e6ffed;
+  border: 1px solid #4caf50;
+  padding: 10px;
+  border-radius: 8px;
+  width: 60%;
+  margin: 20px auto;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.header-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.signout-btn {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.signout-btn:hover {
+  background-color: #d32f2f;
+}
+
+.signout-btn:active {
+  background-color: #b71c1c;
+}

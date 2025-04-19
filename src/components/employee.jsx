@@ -35,9 +35,9 @@ function EmployeePage() {
     setViewError(null);
 
     try {
-      const response = await axios.get('http://localhost:3000/api/v2/employees');
+      const response = await axios.get('http://localhost:3000/api/v2/getAllEmployees');
       console.log('Employees fetched:', response.data);
-      setEmployees(response.data.Employees || []);
+      setEmployees(response.data.employees || []); // <- FIXED THIS LINE
     } catch (err) {
       console.error('Error fetching employees:', err);
       setViewError(err.response?.data?.message || err.message);
@@ -125,7 +125,7 @@ function EmployeePage() {
         throw new Error('Employee ID is required');
       }
 
-      const response = await axios.delete(`http://localhost:3000/api/v2/removeemployee/${removeEmployee.employeeId}`);
+      const response = await axios.delete(`http://localhost:3000/api/v2/removeEmployee/${removeEmployee.employeeId}`);
 
       console.log('Employee removed:', response.data);
       alert(response.data.message || `Employee with ID ${removeEmployee.employeeId} removed successfully!`);
@@ -335,37 +335,39 @@ function EmployeePage() {
 
           {/* Employees Display */}
           {employees.length > 0 && (
-            <div className="products-container">
-              {employees.map((employee) => (
-                <div key={employee.EmployeeID} className="product-summary">
-                  <div className="product-details">
-                    <div className='product-title'>
-                      <h3 className="product-name">{employee.FName} {employee.LName}</h3>
-                    </div>
-                    <p className="product-description">
-                      <strong>Email:</strong> {employee.Email}<br />
-                      <strong>Phone:</strong> {employee.PhoneNo}<br />
-                      <strong>CNIC:</strong> {employee.CNIC}
-                    </p>
-                    <p className="product-delivery">
-                      <span>Employee ID: {employee.EmployeeID}</span>
-                    </p>
-                    <p className="product-price">Salary: Rs {employee.Salary}</p>
-            
-                    <div className="product-meta">
-                      <span>Gender: {employee.Gender}</span>
-                      <span>DOB: {new Date(employee.DOB).toLocaleDateString()}</span>
-                      <span>Manager: {employee.ManagerID || 'None'}</span>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-
-          {employees.length === 0 && !viewLoading && (
-            <p className="no-products">No employees found</p>
-          )}
+  <div className="products-container">
+    {employees.map((employee) => (
+      <div key={employee.EmployeeID} className="product-summary">
+        <div className="product-details">
+          <div className='product-title'>
+            <h3 className="product-name">{employee.FName}</h3>
+            <span className="employee-id">ID: {employee.EmployeeID}</span>
+          </div>
+          <p className="product-description">
+            <strong>User ID:</strong> {employee.UserID}<br />
+            <strong>CNIC:</strong> {employee.CNIC}<br />
+            <strong>Bank Account:</strong> {employee.BankAccount}
+          </p>
+          <p className="product-price">Salary: Rs {employee.Salary}</p>
+    
+          <div className="product-meta">
+            {employee.ManagerID && (
+              <>
+                <span>Manager ID: {employee.ManagerID}</span>
+                {employee.ManagerName && (
+                  <span>Manager Name: {employee.ManagerName}</span>
+                )}
+              </>
+            )}
+            {!employee.ManagerID && (
+              <span>No Manager Assigned</span>
+            )}
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+)}
         </div>
       </div>
     </Layout>
